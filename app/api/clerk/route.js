@@ -3,13 +3,13 @@
 import connectDB from "@/config/db";
 import User from "@/models/userModel";
 import { headers } from "next/headers";
-import { NextRequest } from "next/server";
+
 import { Webhook } from "svix";
 
 
 export async function POST(req) {
     const wh = new Webhook(process.env.SIGNING_SECRET)
-    const headerPayload = await headers()
+    const headerPayload = headers()
     const svixHeaders = {
         "svix_id": headerPayload.get("svix-id"),
         "svix_timestamp": headerPayload.get("svix-timestamp"),
@@ -44,5 +44,6 @@ export async function POST(req) {
         default:
             break;
     }
-    return NextRequest.json({ message: "Event recieved" })
+    return Response.json({ message: "Event received" });
+
 }
